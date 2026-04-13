@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -20,17 +20,6 @@ body {
   overflow-x: hidden;
 }
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -46,4 +35,16 @@ a {
   html {
     color-scheme: dark;
   }
+} */
+
+body {
+  flex-direction: column;
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-roboto), sans-serif;
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f8f9fa;
 }

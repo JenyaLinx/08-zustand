@@ -5,6 +5,25 @@ import NotesClient from "./Notes.client";
 interface Props {
   params: Promise<{ slug: string[] }>;
 }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
+  const tag = slug[0];
+
+  return {
+    title: `Notes - ${tag}`,
+    description: `Viewing ${tag} notes`,
+    openGraph: {
+      title: `Notes - ${tag}`,
+      description: `Viewing ${tag} notes`,
+      url: `/notes/filter/${tag}`,
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+        },
+      ],
+    },
+  };
+}
 
 export default async function NotesPage({ params }: Props) {
   const { slug } = await params;

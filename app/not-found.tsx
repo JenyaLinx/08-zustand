@@ -1,5 +1,20 @@
 import css from "./not-found.module.css";
 
+export const metadata = {
+  title: "404 - Page not found",
+  description: "Sorry, the page you are looking for does not exist.",
+  openGraph: {
+    title: "404 - Page not found",
+    description: "Sorry, the page you are looking for does not exist.",
+    url: "/not-found",
+    images: [
+      {
+        url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+      },
+    ],
+  },
+};
+
 export default function NotFound() {
   return (
     <>

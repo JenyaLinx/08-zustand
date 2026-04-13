@@ -3,24 +3,22 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchNotes } from "@/lib/api";
-
 import NoteList from "@/components/NoteList/NoteList";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
-import Modal from "@/components/Modal/Modal";
-import NoteForm from "@/components/NoteForm/NoteForm";
+import Link from "next/link";
+import css from "./NotesPage.module.css";
 
 interface Props {
   tag: string;
 }
 
 export default function NotesClient({ tag }: Props) {
-  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [page, setPage] = useState(1);
 
-  // debounce
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
@@ -32,32 +30,37 @@ export default function NotesClient({ tag }: Props) {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["notes", page, debouncedSearch, tag],
-    queryFn: () => fetchNotes(page, debouncedSearch, tag),
+    queryFn: () =>
+  fetchNotes(
+    page,
+    debouncedSearch,
+    tag === "all" ? undefined : tag
+  ),
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error...</p>;
-
   return (
-    <div>
-      <button onClick={() => setIsOpen(true)}>Create note</button>
+    <div className={css.wrapper}>
+      <div className={css.toolbar}>
+        <SearchBox value={search} onChange={setSearch} />
+        <Link href="/notes/action/create" className={css.createBtn}>
+          Create note +
+        </Link>
+      </div>
 
-      <SearchBox value={search} onChange={setSearch} />
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error loading notes</p>}
 
       {data?.notes && data.notes.length > 0 && (
         <NoteList notes={data.notes} />
       )}
 
-      <Pagination
+      {data?.totalPages && data.totalPages > 1 && (
+      
+        <Pagination
         page={page}
         totalPages={data?.totalPages ?? 1}
         onChange={setPage}
       />
-
-      {isOpen && (
-        <Modal onClose={() => setIsOpen(false)}>
-          <NoteForm onClose={() => setIsOpen(false)} />
-        </Modal>
       )}
     </div>
   );
