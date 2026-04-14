@@ -1,6 +1,7 @@
 import "./globals.css";
 import { ReactNode } from "react";
 import { Roboto } from "next/font/google";
+import type { Metadata } from "next";
 import TanStackProvider from "../components/TanStackProvider/TanStackProvider";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -12,7 +13,7 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "NoteHub",
   description: "Manage your notes easily",
   openGraph: {
